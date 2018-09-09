@@ -25,15 +25,9 @@ app.use(
 app.use("/", featureRouter);
 
 // tslint:disable:variable-name
-app.use(
-  (
-    _req: express.Request,
-    _res: express.Response,
-    next: express.NextFunction
-  ) => {
-    next(new StatusError("Not Found", 404));
-  }
-);
+app.use((_req: Request, _res: Response, next: NextFunction) => {
+  next(new StatusError("Not Found", 404));
+});
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) {
