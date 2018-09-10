@@ -11,6 +11,7 @@ import logger from "./utils/logger";
 const app = express();
 
 app.use(compression());
+app.use(express.json());
 app.use(helmet());
 app.use(
   morgan("tiny", {
