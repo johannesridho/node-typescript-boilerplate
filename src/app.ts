@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { NextFunction } from "express-serve-static-core";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
+import ErrorResponse from "./errors/ErrorResponse";
 import StatusError from "./errors/StatusError";
 import featureRouter from "./feature/featureController";
 import logger from "./utils/logger";
@@ -35,17 +36,17 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     return next(err);
   }
 
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
   logger.error(
     `${err.status || 500} - ${err.message} - ${req.method} - ${
       req.originalUrl
     } - ${req.ip}`
   );
 
-  res.status(err.status || 500);
-  res.send();
+  const status = err.status || 500;
+  res.status(status);
+  res.send(new ErrorResponse(err.message, status));
+
+  next(err);
 });
 
 export default app;
