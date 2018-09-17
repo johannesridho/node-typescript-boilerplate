@@ -4,8 +4,9 @@ dotenv.config({ path: ".env" });
 
 const config = {
   app: {
-    env: process.env.NODE_ENV,
-    port: normalizePort(process.env.PORT || "8080")
+    env: process.env.NODE_ENV || "development",
+    port: normalizePort(process.env.PORT || "8080"),
+    version: process.env.npm_package_version
   }
 };
 

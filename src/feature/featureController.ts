@@ -1,10 +1,11 @@
-import * as express from "express";
+import { Request, Response, Router } from "express";
+import logger from "../utils/logger";
 import * as featureService from "./featureService";
 
-const router = express.Router();
+const router = Router();
 
-// tslint:disable:variable-name
-router.get("/", (_req, res) => {
+router.get("/", (req: Request, res: Response) => {
+  logger.debug(req);
   res.send(featureService.getHelloWorld());
 });
 
