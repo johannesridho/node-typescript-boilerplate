@@ -6,8 +6,10 @@ const logger = winston.createLogger({
     new winston.transports.Console({
       level: config.app.env === "production" ? "info" : "debug"
     }),
-    new winston.transports.File({ filename: "debug.log", level: "debug" }),
-    new winston.transports.File({ filename: "app.log", level: "info" })
+    new winston.transports.File({
+      filename: "app.log",
+      level: config.app.env === "production" ? "error" : "debug"
+    })
   ]
 });
 

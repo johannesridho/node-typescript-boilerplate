@@ -6,9 +6,9 @@ services:
       context: .
       args:
         env: production
-        port: 8000
+        port: 8080
     command: yarn run start
     volumes:
       - ./dist:/app/dist
     ports:
-      - "8000:8000"
+      - "8080:8080"
