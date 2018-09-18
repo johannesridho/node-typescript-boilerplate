@@ -5,7 +5,6 @@ import { NextFunction } from "express-serve-static-core";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
 import ErrorResponse from "./errors/ErrorResponse";
-import StatusError from "./errors/StatusError";
 import featureRouter from "./feature/featureController";
 import logger from "./utils/logger";
 
@@ -27,8 +26,10 @@ app.use(
 app.use("/", featureRouter);
 
 // tslint:disable:variable-name
-app.use((_req: Request, _res: Response, next: NextFunction) => {
-  next(new StatusError("Not Found", 404));
+app.use((_req: Request, res: Response) => {
+  const status = 404;
+  res.status(status);
+  res.send(new ErrorResponse("Not Found", status));
 });
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
