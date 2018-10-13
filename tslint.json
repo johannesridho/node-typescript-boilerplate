@@ -1,9 +1,20 @@
 {
-  "extends": ["tslint:recommended", "tslint-config-prettier", "tslint-immutable"],
+  "extends": ["tslint:recommended", "tslint-config-prettier", "tslint-immutable", "tslint-config-airbnb"],
+  "linterOptions": {
+    "exclude": [
+      "**/*.spec.ts"
+    ]
+  },
   "rules": {
     "interface-name": [
       true,
       "never-prefix"
-    ]
+    ],
+    "max-line-length": [true, 120],
+    "no-magic-numbers": true,
+    "ordered-imports": false,
+    "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
+    "typedef": [true, "call-signature", "parameter", "property-declaration"],
+    "quotemark": [true, "double", "avoid-template"]
   }
 }

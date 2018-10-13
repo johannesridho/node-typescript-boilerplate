@@ -1,12 +1,12 @@
 import * as compression from "compression";
 import * as express from "express";
-import { Request, Response } from "express";
 import { NextFunction } from "express-serve-static-core";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
 import ErrorResponse from "./errors/ErrorResponse";
-import featureRouter from "./feature/featureController";
+import featureController from "./feature/featureController";
 import logger from "./utils/logger";
+import * as HttpStatusCodes from "http-status-codes";
 
 const app = express();
 
@@ -23,27 +23,26 @@ app.use(
   })
 );
 
-app.use("/", featureRouter);
+app.use("/", featureController);
 
 // tslint:disable:variable-name
-app.use((_req: Request, res: Response) => {
-  const status = 404;
-  res.status(status);
-  res.send(new ErrorResponse("Not Found", status));
+app.use((_req: express.Request, res: express.Response) => {
+  res.status(HttpStatusCodes.NOT_FOUND);
+  res.send(new ErrorResponse("Not Found", HttpStatusCodes.NOT_FOUND));
 });
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, req: express.Request, res: express.Response, next: NextFunction) => {
   if (res.headersSent) {
     return next(err);
   }
 
   logger.error(
-    `${err.status || 500} - ${err.message} - ${req.method} - ${
+    `${err.status || HttpStatusCodes.INTERNAL_SERVER_ERROR} - ${err.message} - ${req.method} - ${
       req.originalUrl
     } - ${req.ip}`
   );
 
-  const status = err.status || 500;
+  const status = err.status || HttpStatusCodes.INTERNAL_SERVER_ERROR;
   res.status(status);
   res.send(new ErrorResponse(err.message, status));
 
