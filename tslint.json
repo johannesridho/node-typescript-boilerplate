@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:recommended", "tslint-config-prettier", "tslint-immutable", "tslint-config-airbnb"],
+  "extends": ["tslint:recommended", "tslint-immutable", "tslint-config-airbnb"],
   "linterOptions": {
     "exclude": [
       "**/*.spec.ts"
